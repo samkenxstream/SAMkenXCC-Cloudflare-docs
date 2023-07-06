@@ -15,7 +15,7 @@ title: Limits
 | [Simultaneous outgoing<br/>connections/request](#simultaneous-open-connections) | 6         | 6         |
 | [Environment variables](#environment-variables)                                 | 64/Worker | 128/Worker |
 | [Environment variable<br/>size](#environment-variables)                         | 5 KB      | 5 KB      |
-| [Worker size](#worker-size)                                                     | 1 MB      | 5 MB      |
+| [Worker size](#worker-size)                                                     | 1 MB      | 10 MB      |
 | [Worker startup time](#worker-startup-time)                                     | 200 ms    | 200 ms    |
 | [Number of Workers](#number-of-workers)                                         | 100       | 500       |
 | [Number of Cron Triggers<br/>per Worker](#number-of-schedules)                  | 3         | 3         |
@@ -37,7 +37,7 @@ Request headers observe a total limit of 32 KB, but each header is limited to 16
 
 Cloudflare has network-wide limits on the request body size. This limit is tied to your Cloudflare Account's plan, which is separate from your Workers plan. When the request body size of your POST/PUT/PATCH requests exceed your plan's limit, the request is rejected with a `(413) Request entity too large` error.
 
-Cloudflare Enterprise customers may contact their account team or [Cloudflare Support](https://support.cloudflare.com/hc/articles/200172476) to have a request body limit beyond 500 MB.
+Cloudflare Enterprise customers may contact their account team or [Cloudflare Support](/support/troubleshooting/general-troubleshooting/contacting-cloudflare-support/) to have a request body limit beyond 500 MB.
 
 {{<table-wrap>}}
 
@@ -52,7 +52,7 @@ Cloudflare Enterprise customers may contact their account team or [Cloudflare Su
 
 ## Response limits
 
-Cloudflare does not enforce response limits, but cache limits for [Cloudflare's CDN are observed](/cache/about/default-cache-behavior/). Maximum file size is 512 MB for Free, Pro, and Business customers and 5 GB for Enterprise customers.
+Cloudflare does not enforce response limits, but cache limits for [Cloudflare's CDN are observed](/cache/concepts/default-cache-behavior/). Maximum file size is 512 MB for Free, Pro, and Business customers and 5 GB for Enterprise customers.
 
 ## Worker limits
 
@@ -162,7 +162,11 @@ If you are currently being rate limited, upgrade to a [Paid plan](https://dash.c
 
 Accounts using the Workers Free plan are subject to a burst rate limit of 1,000 requests per minute. Users visiting a rate limited site will receive a Cloudflare `1015` error page. However if you are calling your Worker programmatically, you can detect the rate limit page and handle it yourself by looking for HTTP status code `429`.
 
-Workers being rate-limited by Anti-Abuse Protection are also visible from the Cloudflare dashboard. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) > select your site > **Security** > **Events** > scroll to **Activity log**  and review the log for a Web Application Firewall Block event with a `ruleID` of `worker`.
+Workers being rate-limited by Anti-Abuse Protection are also visible from the Cloudflare dashboard:
+
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account and your website.
+2. Select **Security** > **Events** > scroll to **Activity log**.
+3. Review the log for a Web Application Firewall block event with a `ruleID` of `worker`.
 
 ### Daily request
 
@@ -182,7 +186,11 @@ Routes in fail closed mode will display a Cloudflare `1027` error page to visito
 
 Only one Workers instance runs on each of the many global Cloudflare global network servers. Each Workers instance can consume up to 128 MB of memory. Use [global variables](/workers/runtime-apis/web-standards/) to persist data between requests on individual nodes; note however, that nodes are occasionally evicted from memory.
 
-If a Worker processes a request that pushes the Worker over the 128MB limit, the Cloudflare Workers runtime may cancel one or more requests. To view these errors, as well as CPU limit overages, go to [**Workers**](https://dash.cloudflare.com/?to=/:account/workers) on the Cloudflare dashboard > **Manage Workers** > select the Worker you would like to investigate > scroll down to **Invocation Statuses** and examine _Exceeded Resources_.
+If a Worker processes a request that pushes the Worker over the 128MB limit, the Cloudflare Workers runtime may cancel one or more requests. To view these errors, as well as CPU limit overages:
+
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
+2. Select **Workers & Pages** and in **Overview**, select the Worker you would like to investigate.
+3. Find **Invocation Statuses** and examine _Exceeded Resources_.
 
 Use the [TransformStream API](/workers/runtime-apis/streams/transformstream/) to stream responses if you are concerned about memory usage. This avoids loading an entire response into memory.
 
@@ -242,6 +250,7 @@ While handling a request, each Worker is allowed to have up to six connections o
 - `put()`, `match()`, and `delete()` methods of [Cache objects](/workers/runtime-apis/cache/).
 - `list()`, `get()`, `put()`, `delete()`, and `head()` methods of [R2](/r2/).
 - `send()` and `sendBatch()`, methods of [Queues](/queues/).
+- Opening a TCP socket using the [`connect()`](/workers/runtime-apis/tcp-sockets/) API.
 
 Once a Worker has six connections open, it can still attempt to open additional connections. However, these attempts are put in a pending queue — the connections will not be initiated until one of the currently open connections has closed. Since earlier connections can delay later ones, if a Worker tries to make many simultaneous subrequests, its later subrequests may appear to take longer to start.
 
@@ -264,7 +273,7 @@ Each environment variable has a size limitation of 5 KB.
 
 ## Worker size
 
-A Worker can be up to 5 MB in size after compression, and up to 1 MB for free accounts. You can request adjustments to limits that conflict with your project goals by contacting Cloudflare. To request an increase to a limit, complete the [Limit Increase Request Form](https://forms.gle/ukpeZVLWLnKeixDu7) and we will contact you with next steps.
+A Worker can be up to 10 MB in size after compression, and up to 1 MB for free accounts. You can request adjustments to limits that conflict with your project goals by contacting Cloudflare. To request an increase to a limit, complete the [Limit Increase Request Form](https://forms.gle/ukpeZVLWLnKeixDu7) and we will contact you with next steps.
 
 ## Worker startup time
 
@@ -321,3 +330,9 @@ The size of chunked response bodies (`Transfer-Encoding: chunked`) is not known 
 Durable Objects scale well across Objects, but each object is inherently single-threaded. A baseline of 100 req/sec is a good floor estimate of the request rate an individual Object can handle, though this will vary with workload.
 
 Durable Objects have been built such that the number of Objects in the system do not need to be limited. You can create and run as many separate objects as you want. The main limit to your usage of Durable Objects is the total storage limit per account - if you need more storage, contact your account team.
+
+---
+
+## Image Resizing with Workers 
+
+When using Image Resizing with Workers, refer to [Image Resizing documentation](/images/image-resizing/format-limitations/#limits-per-format) for more information on the applied limits.

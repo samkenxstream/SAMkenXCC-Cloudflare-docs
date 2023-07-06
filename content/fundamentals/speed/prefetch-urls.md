@@ -28,7 +28,7 @@ For Cloudflare to start prefetching URLs, you will need to [enable the feature](
 To enable **Prefetch URLs** in the dashboard:
 
 1.  Log in to your [Cloudflare account](https://dash.cloudflare.com) and go to a specific domain.
-2.  Go to **Speed** > **Optimization**.
+2.  Go to **Speed** > **Optimization** > **Content Optimization**.
 3.  For **Prefetch URLs**, switch the toggle to **On**.
  
 {{</tab>}}
@@ -57,6 +57,6 @@ The manifest file should contain URIs, protocol-relative URLs or full URLs, sepa
 
 ## Limitations
 
-- Cloudflare will only prefetch files listed in the manifest file if the resources are those [cached by default](/cache/about/default-cache-behavior#default-cached-file-extensions).
+- Cloudflare will only prefetch files listed in the manifest file if the resources are those [cached by default](/cache/concepts/default-cache-behavior/#default-cached-file-extensions).
 
-- Prefetch is not compatible with the custom cache key configuration. For more information, refer to [Cache Key limitations](/cache/about/cache-keys/#limitations).
+- Prefetch is not compatible with the custom cache key configuration. For more information, refer to [Cache Key limitations](/cache/how-to/cache-keys/#limitations).

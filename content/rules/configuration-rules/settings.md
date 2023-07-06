@@ -64,7 +64,7 @@ Refer to [Create a Configuration Rule via API](/rules/configuration-rules/create
 
 ## Browser Integrity Check
 
-Enable or disable [Browser Integrity Check](https://support.cloudflare.com/hc/articles/200170086) [^3] for matching requests.
+Enable or disable [Browser Integrity Check](/fundamentals/security/browser-integrity-check/) [^3] for matching requests.
 
 <details>
 <summary>API information</summary>
@@ -110,7 +110,11 @@ Refer to [Create a Configuration Rule via API](/rules/configuration-rules/create
 </div>
 </details>
 
-## Disable Railgun
+{{<Aside type="warning">}}
+This setting will not disable [Apps with Workers](https://cloudflareapps.com/apps/developer/docs/workers). These apps request permission to add a Worker when you are installing them.
+{{</Aside>}}
+
+## Disable Railgun (deprecated)
 
 Disable [Cloudflare Railgun](/railgun/) [^5] for matching requests.
 
@@ -160,7 +164,7 @@ Refer to [Create a Configuration Rule via API](/rules/configuration-rules/create
 
 ## Hotlink Protection
 
-Enable or disable [Hotlink Protection](https://support.cloudflare.com/hc/articles/200170026) [^7] for matching requests.
+Enable or disable [Hotlink Protection](/support/more-dashboard-apps/cloudflare-scrape-shield/understanding-cloudflare-hotlink-protection/) [^7] for matching requests.
 
 <details>
 <summary>API information</summary>
@@ -306,7 +310,7 @@ Refer to [Create a Configuration Rule via API](/rules/configuration-rules/create
 
 ## Security Level
 
-Select the [Security Level](https://support.cloudflare.com/hc/articles/200170056) [^13] for matching requests.
+Select the [Security Level](/fundamentals/security/security-level/) [^13] for matching requests.
 
 <details>
 <summary>API information</summary>
@@ -412,7 +416,7 @@ Refer to [Create a Configuration Rule via API](/rules/configuration-rules/create
 
 [^4]: Cloudflare Apps is a platform for sharing high-quality apps that are easy to use by anyone with a website.
 
-[^5]: Railgun is a WAN optimization technology that compresses previously unreachable web objects using techniques similar to those used in high-quality video compression.
+[^5]: Railgun (deprecated) is a WAN optimization technology that compresses previously unreachable web objects using techniques similar to those used in high-quality video compression.
 
 [^6]: Zaraz gives you complete control over third-party tools and services for your website, and allows you to offload them to the Cloudflare global network.
 

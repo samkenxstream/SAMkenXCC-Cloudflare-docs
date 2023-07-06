@@ -34,9 +34,6 @@ header: wrangler.toml
 compatibility_flags = [ "nodejs_compat" ]
 ```
 
-<!-- Add once https://github.com/cloudflare/cloudflare-docs/pull/8322 is merged -->
-<!-- {{<render file="_nodejs-compat-local-dev.md">}} -->
-
 ## Enable Node.js with Pages Functions
 
 ### Enable with Wrangler
@@ -44,7 +41,7 @@ compatibility_flags = [ "nodejs_compat" ]
 To enable `nodejs_compat` in local development, pass the [`--compatibility-flags`](/workers/wrangler/commands/#dev-1) argument with the `nodejs_compat` flag to `wrangler pages dev`:
 
 ```sh
-$ wrangler pages dev [<DIRECTORY>] --compatibility-flags="nodejs_compat" --experimental-local
+$ wrangler pages dev [<DIRECTORY>] --compatibility-flags="nodejs_compat"
 ```
 
 For additional options, refer to the list of [Pages-specific CLI commands](/workers/wrangler/commands/#dev-1).
@@ -54,6 +51,6 @@ For additional options, refer to the list of [Pages-specific CLI commands](/work
 To enable Node.js for your Pages Function from the Cloudflare dashboard:
 
 1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
-2. Select **Pages** and select your Pages project.
+2. Select **Workers & Pages** and in **Overview**, select your Pages project.
 3. Select **Settings** > **Functions** > **Compatibility Flags**.
 4. Add the `nodejs_compat` compatibility flag to your Preview and Production deployments.
